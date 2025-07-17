@@ -1,0 +1,33 @@
+class Solution {
+    public int maxValue(int[][] events, int k) {
+        Arrays.sort(events, Comparator.comparingInt(e -> e[0]));
+        Integer[][] memo = new Integer[events.length][k + 1];
+        return dfs(events, 0, k, memo);
+    }
+
+    private int dfs(int[][] events, int i, int rem, Integer[][] memo) {
+        if (i == events.length || rem == 0) return 0;
+        if (memo[i][rem] != null) return memo[i][rem];
+
+        // Option 1: Skip
+        int ans = dfs(events, i + 1, rem, memo);
+
+        // Option 2: Attend
+        int next = findNext(events, events[i][1] + 1);
+        ans = Math.max(ans, events[i][2] + dfs(events, next, rem - 1, memo));
+
+        return memo[i][rem] = ans;
+    }
+
+    // Binary search for the first event starting after given day
+    private int findNext(int[][] events, int target) {
+        int l = 0, r = events.length;
+        while (l < r) {
+            int m = (l + r) / 2;
+            if (events[m][0] < target) l = m + 1;
+            else r = m;
+        }
+        return l;
+    }
+    
+}
