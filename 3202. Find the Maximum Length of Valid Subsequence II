@@ -1,0 +1,27 @@
+// LeetCode 3202: Find the Maximum Length of Valid Subsequence II
+// Correct Java Solution
+
+import java.util.*;
+
+class Solution {
+    public int maximumLength(int[] nums, int k) {
+        int n = nums.length;
+        // dp[i] stores a map: key is the remainder (nums[i] + nums[j]) % k, value is max length
+        int[][] dp = new int[n][k];
+        int maxLen = 1;
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < i; j++) {
+                int prev = (nums[j] + nums[i]) % k;
+                dp[i][prev] = Math.max(dp[i][prev], dp[j][prev] + 1);
+                maxLen = Math.max(maxLen, dp[i][prev]);
+            }
+            // Base case: any element can start a sequence
+            for (int m = 0; m < k; m++) {
+                dp[i][m] = Math.max(dp[i][m], 1);
+            }
+        }
+
+        return maxLen;
+    }
+}
