@@ -1,0 +1,12 @@
+class Solution {
+    public int maximumLength(int[] nums) {
+        int[][] dp = new int[2][2]; // dp[r][y] = max length ending with r after y
+        for (int num : nums) {
+            int r = num % 2;
+            for (int y = 0; y < 2; y++) {
+                dp[r][y] = Math.max(dp[r][y], dp[y][r] + 1);
+            }
+        }
+        return Math.max(Math.max(dp[0][0], dp[0][1]), Math.max(dp[1][0], dp[1][1]));
+    }
+}
