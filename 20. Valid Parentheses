@@ -1,0 +1,34 @@
+class Solution {
+    
+         public boolean isValid(String s) {
+        // Create a stack to keep track of opening brackets
+        Stack<Character> stack = new Stack<>();
+
+        // Loop through each character in the string
+        for (int i = 0; i < s.length(); i++) {
+            char ch = s.charAt(i);
+
+            // If it's an opening bracket, push to stack
+            if (ch == '(' || ch == '{' || ch == '[') {
+                stack.push(ch);
+            } 
+            // If it's a closing bracket
+            else {
+                // If stack is empty, there’s no matching opening
+                if (stack.isEmpty()) return false;
+
+                // Pop from stack and check if it matches
+                char top = stack.pop();
+
+                if (ch == ')' && top != '(') return false;
+                if (ch == '}' && top != '{') return false;
+                if (ch == ']' && top != '[') return false;
+            }
+        }
+
+        // At the end, stack should be empty if all brackets are closed
+        return stack.isEmpty();
+    }
+        
+    
+}
